@@ -1,2 +1,2 @@
 # devops-netology
-This repository using for homework
+This repository using for DevOps homework
