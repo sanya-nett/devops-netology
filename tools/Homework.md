@@ -1,6 +1,6 @@
 #### Homework __'Git tools'__
 
-1. Найдите полный хеш и комментарий коммита, хеш которого начинается на aefea.
+1. Найдите полный хеш и комментарий коммита, хеш которого начинается на aefea.  
 Command: `git show aefea`  
 Result: `commit aefead2207ef7e2aa5dc81a34aedf0cad4c32545
 Update CHANGELOG.md`
