@@ -7,11 +7,11 @@ __Answer__: `1 CPU, 1Gi Memory `
 
 - Как добавить оперативной памяти или ресурсов процессора виртуальной машине?  
 __Answer__:
-```  
-config.vm.provider "virtualbox" do |vb|    
-  vb.memory = 1024  
-  vb.cpus = 1
-```  
+    ```  
+    config.vm.provider "virtualbox" do |vb|    
+      vb.memory = 1024  
+      vb.cpus = 1
+    ```  
 
 - Какой переменной можно задать длину журнала history, и на какой строчке manual это описывается?  
 __Answer__: `HISTSIZE` - The  number  of commands to remember in the command history.
@@ -37,12 +37,12 @@ __Answer__: логическое условие, которое проверяе
 - Основываясь на знаниях о просмотре текущих (например, `PATH`) и установке новых переменных; командах, которые мы 
 рассматривали, добейтесь в выводе `type -a bash` в виртуальной машине наличия первым пунктом в списке:  
 __Answer__: 
-```bash
-new_path=/tmp/new_path_directory
-mkdir ${new_path}
-cp /bin/bash ${new_path}
-export PATH="${new_path}:${PATH}"
-```
+    ```bash
+    new_path=/tmp/new_path_directory
+    mkdir ${new_path}
+    cp /bin/bash ${new_path}
+    export PATH="${new_path}:${PATH}"
+    ```
 
 - Чем отличается планирование команд с помощью `batch` и `at`?  
 __Answer__:  
