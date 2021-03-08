@@ -21,11 +21,11 @@ __Result__:
 while :
 do
     curl https://localhost:4757 &> /dev/null
-    if (($? != 0))
+    if (($? == 0))
     then
-        date >> curl.log;
         break
     fi
+    date >> curl.log
 done
 ``` 
 
@@ -40,11 +40,8 @@ while ((MAX_RETRY>0))
 do
     for HOST in ${HOSTS[@]}
     do
-        curl --max-time 1 https://${HOST}:${PORT} &> /dev/null
-        if (($? != 0))
-        then
-            echo -e "${HOST}\t - is not available - $(date)" >> hosts_health.log
-        fi
+        CMD_RESULT=$(curl --max-time 1 https://${HOST}:${PORT} 2>&1 | tail -1)
+        echo -e "[$(date +%D-%T)] ${HOST} - ${CMD_RESULT}" >> hosts_health.log
     done
 let "MAX_RETRY-=1"
 done
