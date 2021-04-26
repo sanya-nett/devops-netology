@@ -1,4 +1,4 @@
-FROM archlinux:latest
+FROM archlinux:base-20210404.0.18927
 
 RUN pacman -Sy --noconfirm ponysay
 
