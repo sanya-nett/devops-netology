@@ -5,8 +5,8 @@ locals {
   }[terraform.workspace]
 
   web_instance_count = {
-    stage = 1
-    prod = 2
+    stage = 0
+    prod = 1
   }[terraform.workspace]
 }
 
@@ -66,23 +66,5 @@ resource "aws_instance" "web" {
 
   tags = {
     Name = "Ubuntu-20.04-t2"
-  }
-}
-
-resource "aws_instance" "web-foreach" {
-  ami = data.aws_ami.ubuntu.id
-  instance_type = local.web_instance_type
-  for_each = {
-    stage: 1
-    prod: 2
-  }
-  security_groups = [
-    aws_security_group.allow_ssh.name
-  ]
-  key_name = aws_key_pair.home_laptop.key_name
-
-  tags = {
-    Name = "Ubuntu-20.04-t2"
-    env = each.key
   }
 }
