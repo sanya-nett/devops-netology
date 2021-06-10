@@ -1,15 +1,3 @@
-locals {
-  web_instance_type = {
-    stage = "t3.micro"
-    prod = "t2.micro"
-  }[terraform.workspace]
-
-  web_instance_count = {
-    stage = 0
-    prod = 1
-  }[terraform.workspace]
-}
-
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -53,8 +41,7 @@ resource "aws_key_pair" "home_laptop" {
 
 resource "aws_instance" "web" {
   ami = data.aws_ami.ubuntu.id
-  instance_type = local.web_instance_type
-  count = local.web_instance_count
+  instance_type = "t2.micro"
   security_groups = [
     aws_security_group.allow_ssh.name
   ]
