@@ -30,6 +30,15 @@ func main() {
 }
 
 ```
+__Output__:
+```commandline
+Enter input value in meters: 100
+Convert 100.00 meters to 328.08 feet
+
+Enter input value in meters: 0.3048
+Convert 0.30 meters to 1.00 feet
+```
+
 2) Напишите программу, которая найдет наименьший элемент в любом заданном 
    списке, например: ```x := []int{48,96,86,68,57,82,63,70,37,34,83,27,19,97,9,17,}```
 ```
@@ -67,7 +76,10 @@ func main() {
 }
 
 ```
-
+__Output__:
+```commandline
+Minimum value: 9 and it's 14-th element
+```
 
 3) Напишите программу, которая выводит числа от 1 до 100, 
    которые делятся на 3. То есть (3, 6, 9, …)
