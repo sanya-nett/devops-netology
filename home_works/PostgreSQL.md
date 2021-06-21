@@ -1,6 +1,6 @@
 ## 6.4. PostgreSQL
 
-1 - Найдите и приведите управляющие команды для:
+1) Найдите и приведите управляющие команды для:
 
 * вывода списка БД
 ```commandline
@@ -24,7 +24,7 @@
 \q                     quit psql
 ```
 
-2 - Используя `psql` создайте БД `test_database`
+2) Используя `psql` создайте БД `test_database`
 ```commandline
 admin=# create database test_database;
 CREATE DATABASE
@@ -46,3 +46,54 @@ ANALYZE
 ```
 
 Используя таблицу pg_stats, найдите столбец таблицы orders с наибольшим средним значением размера элементов в байтах.
+Приведите в ответе команду, которую вы использовали для вычисления и полученный результат.
+```commandline
+select attname, avg_width from pg_catalog.pg_stats 
+where tablename = 'orders' 
+order by avg_width desc 
+limit 1
+> name	13
+```
+
+3) Предложите SQL-транзакцию для проведения данной операции.
+```
+begin;
+create table public.orders_new (
+	id serial NOT NULL,
+	"name" varchar(50) NOT NULL,
+	price numeric NOT NULL,
+	constraint orders_pkey_new PRIMARY KEY (id, price)
+) partition by range (price);
+
+create table public.orders_1 partition of public.orders_new 
+for values from (500) to (MAXVALUE);
+
+create table public.orders_2 partition of public.orders_new
+for values from (MINVALUE) to (499);
+
+insert into public.orders_new (id, name, price)
+select id, name, price from public.orders;
+
+alter table public.orders rename constraint orders_pkey TO orders_pkey_backup;
+alter table public.orders rename to orders_backup;
+alter table public.orders_new rename constraint orders_pkey_new TO orders_pkey;
+alter table public.orders_new rename to orders;
+
+commit;
+```
+
+Можно ли было изначально исключить "ручное" разбиение при проектировании таблицы orders?
+__Result__: возможно можно, но при использовании дополнительных приложений (из коробки нет)
+
+4) Используя утилиту pg_dump создайте бекап БД test_database.
+
+```commandline
+docker exec -ti psql-db bash -c "pg_dump -U admin test_database > /backup/my_dump.sql"
+```
+
+Как бы вы доработали бэкап-файл, чтобы добавить уникальность значения столбца title для таблиц test_database?  
+__Result__: наверное, имелось в виду поле `name` и `surname` для таблиц.
+Для диперса скорее всего сначала раскатил этот дамп где-то в защищенной среде,
+прошел бы скриптом по важным таблицам и изменил реальные имена на хэш или что-то такое
+
+
